@@ -57,7 +57,7 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mt-8">Featured Events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {featuredEvents.map((event) => (
-            <EventCard key={event.idd} event={event} />
+            <EventCard key={event.idd} eventt={event} />
           ))}
         </div>
       </div>
