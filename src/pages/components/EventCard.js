@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 
 // components/EventCard.js
-export default function EventCard({ event : any}) {
+export default function EventCard({ event}) {
   return (
     <Link href={`/events/${event.id}`}>
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
