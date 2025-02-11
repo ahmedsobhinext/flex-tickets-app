@@ -4,7 +4,7 @@ import Link from 'next/link';
 // components/EventCard.js
 export default function EventCard({ eventt}) {
   return (
-    <Link href={`/events/${eventt.id}`}>
+    <Link href={`/events/${eventt.idd}`}>
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <img 
         src={eventt.image} 
