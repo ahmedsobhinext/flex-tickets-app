@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-
 export default function AdminDashboard() {
   const stats = [
     { title: 'Total Users', value: 500 },
@@ -38,24 +37,29 @@ export default function AdminDashboard() {
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {/* Manage Users Button */}
-        <Link href="/admin/manage-users" passHref>
-          <button className="bg-blue-500 text-white p-4 rounded hover:bg-blue-600">
-            Manage Users
-          </button>
-        </Link>
+          <Link href="/admin/manage-users" passHref>
+            <button className="bg-blue-500 text-white p-4 rounded hover:bg-blue-600">
+              Manage Users
+            </button>
+          </Link>
+
           {/* Manage Events Button */}
-        <Link href="/admin/manage-events" passHref>
-          <button className="bg-green-500 text-white p-4 rounded hover:bg-green-600">
-            Manage Events
-          </button>
-        </Link>
-          {/* View Reports Button */}
-        <Link href="/admin/view-reports" passHref>
-          <button className="bg-purple-500 text-white p-4 rounded hover:bg-purple-600">
-            View Reports
-          </button>
-        </Link>
+          <Link href="/admin/manage-events" passHref>
+            <button className="bg-green-500 text-white p-4 rounded hover:bg-green-600">
+              Manage Events
+            </button>
+          </Link>
+
+          {/* Add Event Organizer Button */}
+          <Link href="/admin/add-event-organizer" passHref>
+            <button className="bg-yellow-500 text-white p-4 rounded hover:bg-yellow-600">
+              Add Event Organizer
+            </button>
+          </Link>
         </div>
+
+        {/* CRUD Operations for Event Organizers */}
+       
 
         {/* Recent Activity */}
         <h2 className="text-2xl font-semibold mt-8">Recent Activity</h2>

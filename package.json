@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "firebase": "^11.4.0",
     "framer-motion": "^12.4.2",
     "html2canvas": "^1.4.1",
     "next": "15.1.6",
