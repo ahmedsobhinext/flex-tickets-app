@@ -2,8 +2,8 @@
 'use client'
 import { useState } from 'react';
 import Head from 'next/head';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from '../components/NavbarAdmin';
+import Footer from '../components/FooterAdmin';
 
 export default function AddEventOrganizer() {
   const [formData, setFormData] = useState({
@@ -85,7 +85,7 @@ export default function AddEventOrganizer() {
           <div className="mb-4">
             <label className="block text-gray-700">Phone Number</label>
             <input
-              type="text"
+              type="number"
               name="phone"
               value={formData.phone}
               onChange={handleChange}

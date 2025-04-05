@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from '../components/NavbarAdmin';
+import Footer from '../components/FooterAdmin';
 
 // export default function ManageUsers() {
 //   const [users, setUsers] = useState([]); // State to store fetched users
