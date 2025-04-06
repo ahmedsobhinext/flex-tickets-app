@@ -150,7 +150,7 @@ export default function ManageEvents() {
               {events.map((event) => (
                 <tr key={event.id} className="border-b">
                   <td className="p-2 text-center">{event.id}</td>
-                  <td className="p-2 text-center">{event.name}</td>
+                  <td className="p-2 text-center">{event.title}</td>
                   <td className="p-2 text-center">{event.date}</td>
                   <td className="p-2 text-center">{event.location}</td>
                   <td className="p-2 text-center">{event.organizerId}</td>
