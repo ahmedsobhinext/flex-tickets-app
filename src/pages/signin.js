@@ -60,17 +60,47 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simulate login logic
-    console.log({ email, password });
-    router.push('/');
+    setError(null);
+
+    try {
+      // Authenticate the user with Firebase
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Fetch the user's role from Firestore
+      const role = await fetchUserRole(user.uid);
+
+      // Redirect based on the user's role
+      if (role === 'admin') {
+        router.push('/admin/dashboard');
+      } else if (role === 'Organizer') {
+        router.push('/event-organizer/dashboard');
+      } else if (role === 'user') {
+        router.push('/');
+      } else {
+        setError('Invalid role. Please contact support.');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setError(error.message || 'An error occurred. Please try again.');
+    }
+  };
+
+  const fetchUserRole = async (uid) => {
+    const response = await fetch(`/api/get-user-role?uid=${uid}`);
+    const data = await response.json();
+    return data.role || null;
   };
 
   return (
@@ -91,7 +121,7 @@ export default function SignIn() {
           </h1>
           
           <form 
-            onSubmit={handleSubmit} 
+            onSubmit={handleLogin}
             className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 space-y-6 shadow-2xl"
           >
             <div>

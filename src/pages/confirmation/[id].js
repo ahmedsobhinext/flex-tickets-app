@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas';
 
 const ConfirmationPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  // const { id } = router.query;
   const ticketRef = useRef(null);
 
   // Mock booking data
@@ -25,9 +25,9 @@ const ConfirmationPage = () => {
     },
     user: {
       name: 'Ahmed Al-Saud',
-      email: 'ahmed@example.com'
+      email: 'raghad@raghad.com'
     },
-    qrData: `flex-ticket:${id}:${Date.now()}`
+    qrData: `flex-ticket:${1}:${Date.now()}`
   };
 
   const downloadTicket = async () => {
