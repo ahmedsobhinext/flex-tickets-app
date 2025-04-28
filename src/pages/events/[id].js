@@ -1,13 +1,17 @@
 // pages/events/[id].js
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Link from 'next/link';
 
-
 const EventDetails = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // Mock data with expanded details
   const events = [
@@ -51,7 +55,60 @@ const EventDetails = () => {
 
   const event = events.find(e => e.id === Number(id));
 
-  if (!event) return <div>Event not found</div>;
+  useEffect(() => {
+    // Simulate API call for reviews
+    const fetchReviews = async () => {
+      try {
+        // Mock reviews data
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const mockReviews = [
+          {
+            id: 1,
+            rating: 5,
+            comment: 'Absolutely breathtaking performance! The light show was incredible.',
+            createdAt: '2024-01-16T14:23:00'
+          },
+          {
+            id: 2,
+            rating: 4,
+            comment: 'Great atmosphere, but the lines were a bit long.',
+            createdAt: '2024-01-17T09:45:00'
+          }
+        ];
+        setReviews(mockReviews);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchReviews();
+  }, [id]);
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    try {
+      // Simulate API call
+      const newReview = {
+        id: reviews.length + 1,
+        rating,
+        comment,
+        createdAt: new Date().toISOString()
+      };
+      
+      setReviews(prev => [newReview, ...prev]);
+      setComment('');
+      setRating(5);
+      
+      alert('Review submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Failed to submit review.');
+    }
+  };
+
+  if (!event) return <div className="min-h-screen bg-gradient-to-b from-slate-900 to-blue-900 text-white p-8">Event not found</div>;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-blue-900">
@@ -94,8 +151,9 @@ const EventDetails = () => {
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Event Details */}
+            {/* Left Column */}
             <div className="lg:col-span-2 space-y-8">
+              {/* Event Details */}
               <motion.div
                 initial={{ x: -50 }}
                 animate={{ x: 0 }}
@@ -105,7 +163,7 @@ const EventDetails = () => {
                 <div className="grid grid-cols-2 gap-6 text-gray-200">
                   <div>
                     <p className="text-sm text-cyan-400">Date</p>
-                    <p className="text-xl">{event.date}</p>
+                    <p className="text-xl">{new Date(event.date).toLocaleDateString()}</p>
                   </div>
                   <div>
                     <p className="text-sm text-cyan-400">Duration</p>
@@ -133,9 +191,98 @@ const EventDetails = () => {
                   {event.description}
                 </p>
               </motion.div>
+
+              {/* Reviews Section */}
+              <motion.div
+                initial={{ x: -50 }}
+                animate={{ x: 0 }}
+                className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl space-y-8"
+              >
+                <h2 className="text-3xl font-bold text-white mb-6">Reviews</h2>
+                
+                {/* Review Form */}
+                <form onSubmit={handleSubmitReview} className="space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-cyan-400 text-sm mb-2">Rating</label>
+                      <select
+                        value={rating}
+                        onChange={(e) => setRating(Number(e.target.value))}
+                        className="w-full bg-white/10 rounded-lg p-3 text-black focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                        required
+                      >
+                        {[5, 4, 3, 2, 1].map((value) => (
+                          <option key={value} value={value}>
+                            {value} Star{value !== 1 ? 's' : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-cyan-400 text-sm mb-2">Comment</label>
+                      <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="w-full bg-white/10 rounded-lg p-3 text-white focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                        rows="4"
+                        placeholder="Share your experience..."
+                        required
+                      />
+                    </div>
+                    
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
+                    >
+                      Submit Review
+                    </motion.button>
+                  </div>
+                </form>
+
+                {/* Reviews List */}
+                <div className="space-y-6">
+                  {loading ? (
+                    <p className="text-gray-300 text-center">Loading reviews...</p>
+                  ) : reviews.length === 0 ? (
+                    <p className="text-gray-300 text-center">No reviews yet. Be the first to share your experience!</p>
+                  ) : (
+                    reviews.map((review) => (
+                      <motion.div
+                        key={review.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="bg-white/5 rounded-xl p-6"
+                      >
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 text-cyan-400">
+                              {[...Array(review.rating)].map((_, i) => (
+                                <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                            </div>
+                          </div>
+                          <span className="text-sm text-gray-400">
+                            {new Date(review.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </span>
+                        </div>
+                        <p className="text-gray-200 leading-relaxed">{review.comment}</p>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+              </motion.div>
             </div>
 
-            {/* Ticket Purchase */}
+            {/* Right Column - Ticket Purchase */}
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -149,15 +296,34 @@ const EventDetails = () => {
                     <span className="text-2xl font-bold">SAR {event.price}</span>
                   </div>
                   <Link href={`/purchase/${event.id}`}>
-                  <button className="w-full bg-white text-cyan-600 py-4 rounded-xl font-bold hover:bg-opacity-90 transition-all transform hover:scale-[1.02]">
-                    Buy Now
-                  </button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-white text-cyan-600 py-4 rounded-xl font-bold hover:bg-opacity-90 transition-all"
+                    >
+                      Buy Now
+                    </motion.button>
                   </Link>
                 </div>
-                <div className="text-sm text-white/80">
-                  <p>* All sales are final</p>
-                  <p>* E-ticket will be provided</p>
-                  <p>* 24/7 customer support</p>
+                <div className="text-sm text-white/80 space-y-1">
+                  <p className="flex items-center gap-2">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    All sales are final
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+                    </svg>
+                    E-ticket provided
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm2-14h-4v2h4v6h-2v-4h-2v4H8V8h2V6h4z"/>
+                    </svg>
+                    24/7 Support
+                  </p>
                 </div>
               </div>
             </motion.div>

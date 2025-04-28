@@ -95,7 +95,7 @@ const PurchasePage = () => {
                   <label className="block text-cyan-300 text-sm mb-2">Card Number</label>
                   <div className="relative">
                     <input
-                      type="text"
+                      type="number"
                       className="w-full bg-white/10 rounded-lg p-4 pr-12 text-white focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                       placeholder="4242 4242 4242 4242"
                       required
@@ -120,7 +120,7 @@ const PurchasePage = () => {
                   <div>
                     <label className="block text-cyan-300 text-sm mb-2">CVC</label>
                     <input
-                      type="text"
+                      type="number"
                       className="w-full bg-white/10 rounded-lg p-4 text-white focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                       placeholder="123"
                       required
