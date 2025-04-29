@@ -24,6 +24,20 @@ const PurchasePage = () => {
       type: 'Music Concert'
     },
     // ... other events
+    { 
+      id: 2, 
+      name: 'Amusement Park Day', 
+      date: '2024-02-20', 
+      location: 'Jeddah',
+      image: 'https://www.ey.com/adobe/dynamicmedia/deliver/dm-aid--4e157450-6d65-4f5e-910a-0f7ca39c5b97/ey-fun-roller-coaster.jpg?preferwebp=true&width=1600&quality=85'
+    },
+    { 
+      id: 3, 
+      name: 'Sports Championship', 
+      date: '2024-03-10', 
+      location: 'Dammam',
+      image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211' 
+    },
   ];
 
   const event = events.find(e => e.id === Number(id));

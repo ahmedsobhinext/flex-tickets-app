@@ -40,10 +40,10 @@ export default function Navbar() {
         <span className="text-2xl font-bold text-white">FlexTicket</span>
         <div className="space-x-6">
           <a href="/" className="text-white hover:text-blue-200 transition-colors">Events</a>
+          <a href="/profile" className="text-white hover:text-blue-200 transition-colors">Profile</a>
+          <a href="/about" className="text-white hover:text-blue-200 transition-colors">About Us</a>
           <a href="/signin" className="text-white hover:text-blue-200 transition-colors">Sign In</a>
           <a href="/signup" className="text-white hover:text-blue-200 transition-colors">Sign Up</a>
-          <a href="/about" className="text-white hover:text-blue-200 transition-colors">About Us</a>
-
         </div>
       </div>
     </nav>

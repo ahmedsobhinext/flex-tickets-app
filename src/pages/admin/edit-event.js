@@ -46,7 +46,7 @@ export default function EditEvent() {
 
       if (response.ok) {
         alert('Event updated successfully!');
-        router.push('/event-organizer');
+        router.push('manage-events');
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.error}`);
